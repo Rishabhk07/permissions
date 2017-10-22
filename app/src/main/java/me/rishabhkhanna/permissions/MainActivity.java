@@ -32,7 +32,11 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String phone = etNumber.getText().toString();
                 int perm = ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.CALL_PHONE);
+
                 if (perm == PackageManager.PERMISSION_DENIED){
+                    if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,Manifest.permission.CALL_PHONE)){
+                        Toast.makeText(MainActivity.this, "Give the Damn permission", Toast.LENGTH_SHORT).show();
+                    }
                     ActivityCompat.requestPermissions(MainActivity.this,new String[]{
                             Manifest.permission.CALL_PHONE
                     },CALL_REQCODE);
