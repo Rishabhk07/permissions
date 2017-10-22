@@ -26,20 +26,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         etNumber = (EditText) findViewById(R.id.etNumber);
         btnCall = (Button) findViewById(R.id.btnCall);
-        int perm = ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.CALL_PHONE);
-        if (perm == PackageManager.PERMISSION_DENIED){
-            ActivityCompat.requestPermissions(MainActivity.this,new String[]{
-                    Manifest.permission.CALL_PHONE
-            },CALL_REQCODE);
-        }
+
         btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String phone = etNumber.getText().toString();
-
-
-
-
+                int perm = ContextCompat.checkSelfPermission(MainActivity.this,Manifest.permission.CALL_PHONE);
+                if (perm == PackageManager.PERMISSION_DENIED){
+                    ActivityCompat.requestPermissions(MainActivity.this,new String[]{
+                            Manifest.permission.CALL_PHONE
+                    },CALL_REQCODE);
+                }
                 makeCall(phone);
             }
         });
