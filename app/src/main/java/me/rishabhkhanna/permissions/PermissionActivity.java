@@ -19,7 +19,7 @@ public class PermissionActivity extends AppCompatActivity {
     EditText etNumber;
     Button btnCall;
     public static final String TAG = "Pemrission Activity";
-
+    String phone;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,20 +28,22 @@ public class PermissionActivity extends AppCompatActivity {
         etNumber = (EditText) findViewById(R.id.etNumber);
         btnCall = (Button) findViewById(R.id.btnCall);
 
+        final PerMan.onPermisionResultListener onPermisionResultListener  = new PerMan.onPermisionResultListener() {
+            @Override
+            public void onSuccess() {
+                makeCall(phone);
+            }
+            @Override
+            public void onDenied() {
+                Toast.makeText(PermissionActivity.this, "Permission not granted", Toast.LENGTH_SHORT).show();
+            }
+        };
         btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String phone = etNumber.getText().toString();
-                PerMan.askForPermissions(PermissionActivity.this,Manifest.permission.CALL_PHONE, new PerMan.onPermisionResultListener() {
-                    @Override
-                    public void onSuccess() {
-                        makeCall(phone);
-                    }
-                    @Override
-                    public void onDenied() {
-                        Toast.makeText(PermissionActivity.this, "Permission not granted", Toast.LENGTH_SHORT).show();
-                    }
-                });
+
+                phone = etNumber.getText().toString();
+                PerMan.askForPermissions(PermissionActivity.this,Manifest.permission.CALL_PHONE, onPermisionResultListener);
             }
         });
     }
